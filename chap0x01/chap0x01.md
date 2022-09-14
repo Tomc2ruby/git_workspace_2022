@@ -4,7 +4,7 @@
 
     提示 是否 被 允许 
 
-![正常访问的提示](img\1.png)
+![正常访问的提示](img/1.png)
 
    allow directory   
 
@@ -20,7 +20,7 @@
 
 >4  response 包显示  访问 被允许 
 
-![参看response](img\4.png)
+![参看response](img/4.png)
 
 路径被绕过 ！！Congratulations! Access to file allowed
 
