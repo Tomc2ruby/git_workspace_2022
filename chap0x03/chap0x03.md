@@ -8,7 +8,7 @@
 hostnamectl set-hostname   test
 ```
 
-![image](img\hostnamectl.png)
+![image](img/hostnamectl.png)
 
 + 查看文件安装目录
   
@@ -16,7 +16,7 @@ hostnamectl set-hostname   test
 dpkg -L vim
 ```
 
-![image](img\dpkg.png)
+![image](img/dpkg.png)
 
 + grep 
   
@@ -25,7 +25,7 @@ dpkg -L vim
 grep -B    grep -A   grep -i   grep -n  grep -c
 ```
 
-![image](img\grep.png)
+![image](img/grep.png)
 
 + 查看系统版本几种方法
   
@@ -43,11 +43,11 @@ grep -B    grep -A   grep -i   grep -n  grep -c
 man 3 pcre
 ```
 
-![image](img\man.png)
+![image](img/man.png)
 
  man 7 查看后 按q 退出 ，会提示还有可看文档  如果查看 按 回车 ，否则，按quit 退出
 
- ![imag](img\man1.png)
+ ![imag](img/man1.png)
 
  + 进程常用指令
   
@@ -60,7 +60,7 @@ man 3 pcre
   kill/kill -9 / kill -s N /killall <process_imagename>   
   ```
 
-  ![image](img\ps.png)
+  ![image](img/ps.png)
 
   + scp
    
@@ -72,7 +72,7 @@ man 3 pcre
   scp tomc@10.0.2.14:/home/tomc/test ./
   ```
 
-  ![imag](img\scp.png)
+  ![imag](img/scp.png)
 
   + tail 时时监听syslog 日志
 
@@ -81,8 +81,8 @@ tail -F /var/log/syslog
 tail -F /var/log/auth.log
 ```
 
-![image](img\tail1.png)
-![image](img\tail-F.png)
+![image](img/tail1.png)
+![image](img/tail-F.png)
 
 + Linux 系统中解压 来自Windows的压缩文件 乱码问题  
 
@@ -93,7 +93,7 @@ unzip -l test.zip
 unzip -O cp936 -l test.zip
 ```
 
-![image](img\unzip.png)
+![image](img/unzip.png)
 
 ---
 
