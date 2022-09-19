@@ -10,6 +10,10 @@ hostnamectl set-hostname   test
 
 ![image](img/hostnamectl.png)
 
++ 修改为主机名 还需要修改 **/etc/hosts** 文件 
+
+![image](img/hosts.png)
+
 + 查看文件安装目录
   
 ```bash
