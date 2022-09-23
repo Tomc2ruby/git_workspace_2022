@@ -230,6 +230,117 @@ date -d "sep 18 2022" +%A
 
 ![image](img/date1.png)
 
+### ****进程相关命令**
+
+
++ 进程查询 `ps  | grep`  `lsof -p 进程号`
+
+```bash
+#查看当前shell 进程号
+ ps | grep $$
+
+#查看指定进程号的 进程状态
+ ps aux | grep 8798
+
+#bash 进程的绝对路径
+ type bash
+
+#bash的 版本
+bash --version 
+
+lsof -p pid
+```
+
+![image](img/ps-grep.png)
+
+![image](img/lsof.png)
+
++ Bash 脚本 调试模式
+
+```bash
+#命令行 -x 进行脚本逐行调试，并打印输入的参数值
+ bash -x <script.sh>
+# 代码片段临时开启调试模式 (开始：-x，结束：+x)
+ set -x
+ w
+ set +x
+# echo -n -e 包括不可打印字符 参数写文件 >> 追加
+ echo -n -e "$msg" | xxd -p >> /tmp/debug.log
+```
+
+![image](img/bash-set-x.png)
+
++ 显示列表命令 `ls` ,查询命令`find`
+
+```bash
+# 按时间排序 查看最近10条 
+ ls -alt | head -n 10
+#查找24小时内，新建的所有 .jsp 文件
+ find ./ -mtime 0 -name "*.jsp"
+#同上
+ find ./ -mtime 0 -name "*.sh"
+# 查找所有.sh 权限问777的所有文件
+ find ./*.sh -perm 4777
+```
+
+![image](img/ls-find.png)
+
++ 命令`ls -at`
+
+```bash
+ ls -at /tmp | grep $(date)
+ ls -at /tmp | grep "$date"
+```
+
+![image](img/ls-al.png)
+
++ 查看用户信息 命令 `last`
+
+```bash
+ last
+```
+
+![image](img/last-user.png)
+
++ 查看系统中所有用户最近一次登陆消息 命令 `lastlog`
+
+```bash
+ lastlog
+```
+
+![image](img/lastlog.png)
+
++ 查看用户错误的登陆列表  `lastb`
+
+```bash
+ lastb
+```
+
+![image](img/lastb.png)
+
++ 查看用户登陆时间 命令 `uptime`
+
+```bash
+ uptime
+```
+
+![image](img/uptime.png)
+
++ 查看当前用户 命令`w` ， `who` ，`whoami` ， `users` 
+
+```bash
+ w 
+ who
+ whoami
+ users
+```
+
+![image](img/w-user.png)
+
+![image](img/who.png)
+
+
+
 ---
 
 *待续*
