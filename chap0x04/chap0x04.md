@@ -145,7 +145,214 @@
 
 + incompatible      不兼容的
 
++ multiple          多个
 
++ override          覆盖
+
++ specify           指定
+
++ flag              国旗
+
++ retrieve          检索
+
++ relevant resources    相关资源
+
++ fetch            获取
+
++ eventual          最终
+
++ suffixes          后缀
+
++ detection         检测
+
++ match             匹配
+
++ enumeration       枚举
+
++ common            常见的
+
++ custom dictionary file     自定义字典文件 
+
++ process       过程
+
++ processing     处理
+
++ temporary file   临时文件 
+
++ line wrap         自动换行
+
++ potential         潜在的
+
++ range             范围
+
++ random            随机
+
++ comment           注解注释
+
++ exploitable       可被利用的
+
++ original          原始的
+
++ basic             基本
+
++ heuristic         启发式
+
++ stable            稳定的
+
++ default           默认的
+
++ benchmark         衡量 评估 ，基准程序
+
++ subset            子集
+
++ generic           通用的 
+
++ clause            从句分句 子集
+
++ DBMSes            数据库管理系统
+
++ disclaimer        免责声明
+
++ track             追踪
+
++ stack             堆栈
+
++ stacked           堆放
+
++ query             查询
+
++ potential         潜在的
+
++ extending         扩展
+
++ parameter         参数
+
++ cracking          破解
+
++ perform           执行
+
++ assume            假设
+
++ state             状态
+
++ mechanism         机制
+
++ involved          涉及到
+
++ suspect           怀疑
+
++ frontend          前端
+
++ back-end          后端
+
++ 
+
+### Container
+
++ profile           配置文件
+
++ configuration     配置 
+
++ inventory         存库 ，清单文件
+
++ plugins           插件
+
++ collections       集合
+
++ zombie            僵尸
+
++ hypervisor        虚拟机监控程序
+
++ container         容器
+
++ initiative        计划
+
++ minimal           最小的 
+
+### Shoping
+
++ pricing           定价
+
++ instance          实例
+
++ billing cycle     计费周期
+
++ discounts         折扣
+
++ non-profits       非营利组织
+
++ institutions      机构
+
++ budget            预算
+
++ cost              成本
+
++ purchase          购买
+
++ destroy           摧毁
+
++ export            出口
+
++ import            进口
+
+
+### Docker
+
++ sync              同步
+
++ detached          分离
+
++ incompatible      不兼容的
+
++ attack            攻击
+
++ attach            附加
+
++ dependent         依赖
+
++ scale             规模
+
++ instance          实列
+
++ preferred         首选
+
++ scope             范围
+
++ dynamic           动态
+
++ sleuth            侦探
+
++ invoice           发票
+
+### taken
+
++ trigger           触发
+
++ breaches          违反
+
++ tempting          诱人的
+
++ trap              陷阱
+
++ pattern           模式
+
++ section           部分
+
++ deploy            部署
+
++ trial             试验
+
++ established       建立了
+
++ manipulation      操纵
+
++ statements        语句
+
++ statement         声明
+
++ single tick       单引号
+
++  intrusion detection system   入侵检测系统（ids） 
 
 
 
