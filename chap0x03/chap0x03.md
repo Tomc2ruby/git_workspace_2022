@@ -233,7 +233,8 @@ date -d "sep 18 2022" +%A
 ### ****进程相关命令**
 
 
-+ 进程查询 `ps  | grep`  `lsof -p 进程号`
++ 进程查询 `ps  | grep`  `lsof -p 进程号
+
 
 ```bash
 #查看当前shell 进程号
@@ -254,6 +255,12 @@ lsof -p pid
 ![image](img/ps-grep.png)
 
 ![image](img/lsof.png)
+
++ grep 查询 已知文件内包含 所查内容 
+
+
+![](img/grep-ls.png)
+
 
 + Bash 脚本 调试模式
 
@@ -339,10 +346,293 @@ lsof -p pid
 
 ![image](img/who.png)
 
++ wc -l 计算文件内多少行 
+
+```bash
+wc -l
+```
+
+![](img/wc-l.png)
+
+
++ 解压缩命令：
+
++ “文件”的解压缩命令 有两种 ：
+
++ `gzip` +   （.gz结尾）
+
+  +  `gzip`+文件名称    ---- 压缩文件 
+
+  + `gunzip`  压缩包     ----解压缩
+
+![](img/gunzip.png)
+
+
++  `bzip2`    （.bz2结尾）
+
+  + `bzip`+ 文件名称   ---- 压缩文件
+
+  + `bunzip2`+ 压缩包    --- 解压缩
+
++ “目录”进行打包压缩 命令：
+
+  + （对.tar  包 进行 解压缩 操作 ）
+```bash
+tar -xf  xxx.tar  -C /root 
+
+ -x 解压缩 tar 包。  -C（大写）  指定 解压缩后目录存放路径 
+
+对 （*.tar.gz / *.tar.bz2 ）两种压缩文件进行 压缩 / 解压缩 操作 
+```
++ 1、 *.tar.gz   
+    +  压缩：  
+`tar  -zcf  压缩后文件路径名称    被压缩的目录`
+
+    + 解压缩：
+`tar -zxf  被解压缩的压缩包    解压后存放路径`( -C 指定存放目录)
+
++ `tar -zvxf   *.tar.gz   `   显示所有文件  信息
+
+
++ 2、 *.tar.bz2 
+	  
+    +  压缩：
+  `tar  -jcf 压缩后文件路径名称（*.tar.bz2） 被压缩的目录`
+
+	+   解压缩：
+     `tar -jxf  被解压缩的压缩包（*.tar.bz2）  解压后存放路径` ( -C 指定存放目录)   
+
+
++  总结： 
+
+	`-z `     用于  zip  
+	`-j `  用于bzip2
+
+
++ 分布进行：
+     （*.tar.gz）源码包
+
+ 	1、 `gunzip   *.tar.gz  `   [-C  路径]
+	
+  2、 `tar -xf  *.tar    `  [-C  路径]
+
+![](img/tar-xf-ls-ld.png)
+
+ + `ls /ls -l/ls -lh 目录 / ls-lhd `
+ 
+ ![](img/file-ls-lhd.png)
+
+ +  （显示目录内文件大小 /显。示文件目录内容/ 查看目录内容及大小（人类可读方式）/ 查看当前目录大写 ）
+
+
++ `du -sh`  目录       查看当前目录内文件大小  （统计查看目录）
+
+![](img/ls.du.png)
+
++ `file 文件名称`  ：分析文件类型
+
++` find / -name 名称` 按文件名查找
+
++ `apt search 文件名称 `  搜索文件包
+
+![](img/apt-search.png)
+
++ github 下载 tar包，通过scp 从宿主机拷贝到 虚拟机，Debian11 指定位置， 
+
++ `tar -zxf *.tar.gz    目录
+`
+
++ docker 安装  ：
+
+https://docs.docker.com/engine/install/ubuntu/
+
+安装操作文档一步一步执行即可   ，注意platform
+
++ 
+
++ docker 官方：
+docker-ce 
+
++ Ubuntu官方：（kali内置）
+docker.io
+
+```bash
+apt update && apt install docker.io python3-pip    [-y] 参数
+```
+安装完检查 ：
+```bash
+sudo systemctl status docker     查看dockers状态
+
+sudo docker images  		查看 镜像文件
+```
++ docker 默认管理员权限 
+
++ 修改权限 ：
+
++ 查看 当前用户属性 `id`
+
+![](img/id.docker.png)
+
+![](img/docker-ps-exec.png)
+
+
++ 把当前用户添加到docker 组
+
+```bash
+sudo usermod  -a -G docker tomc 
+```
+![](img/usermod-a-G.png)
+
+![](img/id.docker.1.png)
+
++ 添加后重新登陆
+
+
++查看docker组：
+ 查看组文件
+
+```bash
+cat /etc/group
+```
+![](img/etc.group.png)
+
+```bash
+docker help /docker help push  #  查看命令 帮助
+
+tldr docker    # 查看常用参数
+```
+
+![](img/docker.help.tldr.png)
+
+```bash
+docker version  #  查看docker版本 
+
+```
+![](img/docker.version.png)
+
++ docker命令简单分类整理助记忆：
+
+![](img/dockercommand.png)
+
++ 安装pip3 
+
+```bash
+sudo apt  install python3-pip
+```
+
++ 安装 docker-compose  
+
+```bash
+which docker-compose     #  查看是否已安装
+apt policy docker-compose    #   查看可安装版本 
+```
+```bash
+apt search docker-compose  # 搜索可用版本 
+```
+![](img/apt-search.1.png)
+
+
+```bash
+pip3 install docker-compose     #  用 python3中的 pip3  进行安装  
+```
+![](img/docker-compose.png)
+
+```bash
+git remote -v   #  查看从哪里clone的镜像   
+```
+![](img/git-remote-v.png)
+
+
++ 进入容器：
+```bash
+docker  ps   显示运行的容器
+
+docker exec -it container(名称) bash     进入容器内部  
+docker exec -it container(名称) sh
+```
+
+![](img/docker-exec-bash.png)
+
+![](img/docker-ps-exec.png)
+
++ 查看当前所有可用shell 及位置
+
+```bash
+cat /etc/shells
+```
+![](img/etc-shells.png)
+
+
+```bash
+docker history   dinotools/dionaea（镜像名）  -- no --trunc          #反向解析 build过程  （不进行截断）
+```
+![](img/docker-history.png)
+
++ 可以进入 dokcerhub  远程仓库 查看进行对比：
+
+```bash 
+ docker run --rm -it  镜像名称  bash    #  进入 交互式镜像环境，PHP 
+```
+![](img/docker-ru-it.png)
+
+
+```bash
+docker cp 容器名称（ID）：路径/文件名称     ./(当前路径)                 # 从容器中copy 文件到宿主机 
+ ```
+![](img/docker-fromcon-host-cp.png)
+
+
++ history   #查询历史命令
+```bash
+!number  # 执行第number个 历史命令
+
+ ！command    # 由最近命令向前搜索 指令以command  开头哪个指令 并执行` ！！`
+ ```
+![](img/history-number.png)
+
+```bash
+ !!     	#执行上一条指令 ，相当于 按上建后 按 enter
+```
+![image](img/history.png)
+
+
++ ` ping -c -n    domain`     # ping 包数 、不解析
+
+![](img/ping-c-n.png)
+
++  `cd - `      # 返回上一个目录   ， 不小心 输入了 cd  回到了 根目录， 想返回之前的目录   就用此命令
+
+![](img/cd-cd.png)
+
++  git bash中 `CTRL+l`     # 清屏      
+
++ Linux  查看环境中支持哪些 shell
+```bash
+  cat  /etc/shells  
+```
+
++ kali 系统 ： machine-id   重置方法：
+```bash  
+  cat  /etc/machine-id
+  cat /var/lib/dbus/machine-id
+   # 此两处 machine-id  值需要一样 ，避免出现不必要的麻烦  
+
+  sudo rm  /etc/machine-id  /var/lib/dbus/machine-id
+
+# 重新生成 
+  # 当文件machine-id 内容为空或者文件缺失时 ，创建   /var/lib/dbus/machine-id
+ 并写入 /etc/machine-id
+ ```
+ ```bash
+   sudo dbus-uuidgen  --ensure
+   sudo  systemd-machine-id-setup
+```
+![](img/kali-machine-id.png)
+
+
 
 
 ---
-
 *待续*
 
 ----
