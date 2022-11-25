@@ -875,6 +875,16 @@ https://www.secjuice.com/abusing-php-query-string-parser-bypass-ids-ips-waf/
 
 + compiled                      编译
 
++ recursive                     递归
+
++ initiative                    倡议
+
++ bundle                        包
+
++ reproduced                    复制
+
++ get rid of                    去除 摆脱
+
 ## 缩写 
 
 + Moving Target Defense         MTD
@@ -914,7 +924,12 @@ https://www.secjuice.com/abusing-php-query-string-parser-bypass-ids-ips-waf/
 + Web Application Security Consortium Threat Classification              WASC-TC
     + Web应用安全联合威胁分类
 
-    
++ credentials      --> 凭证
+
++ reverse ip lookup    ---> 反向IP查找
++ strict      ---> 严格的
+
++ Generic payload handler --->通用有效载荷处理程序
 
 
 
